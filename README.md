@@ -1,4 +1,4 @@
-# hidden_markov_neural_network
+# Hidden Markov Neural Networks
 
 A repository for developing Hidden Markov Neural Networks
 
