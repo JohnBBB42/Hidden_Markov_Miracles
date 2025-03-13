@@ -1,5 +1,7 @@
 from torch import nn
 import torch
+import torch.nn.functional as F
+import pytorch_lightning as pl
 
 class BayesianLinear(nn.Module):
     def __init__(self, in_features, out_features, prior_std=1.0):
