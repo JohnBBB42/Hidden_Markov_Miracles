@@ -2,6 +2,13 @@
 
 A repository for developing Hidden Markov Neural Networks
 
+# Instructions to run model
+First git clone the repository.
+Then run:
+´pip install -e .´
+Then run:
+´python src/hidden_markov_neural_network/train.py´
+
 ## Project structure
 
 The directory structure of the project looks like this:
