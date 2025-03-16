@@ -32,7 +32,7 @@ class GameDataset(Dataset):
 # PyTorch Lightning DataModule for HMNN
 class GameDataModule(pl.LightningDataModule):
     def __init__(self, data_dir='data/raw', csv_filename='game.csv',
-                 batch_size=32, test_size=0.3, val_size=0.5, random_state=42):
+                 batch_size=32, test_size=0.3, val_size=0.5, random_state=42, start_year=1980, end_year=None):
         super().__init__()
         self.data_dir = data_dir
         self.csv_filename = csv_filename
@@ -40,6 +40,8 @@ class GameDataModule(pl.LightningDataModule):
         self.test_size = test_size
         self.val_size = val_size
         self.random_state = random_state
+        self.start_year = start_year
+        self.end_year = end_year
         # Target variables (3-pointers made, attempted, %)
         self.target_columns = ['fg3m_home', 'fg3a_home', 'fg3_pct_home', 'fg3m_away', 'fg3a_away', 'fg3_pct_away']
         self.time_column = "season_id"  # Season ID is our time index
@@ -64,6 +66,12 @@ class GameDataModule(pl.LightningDataModule):
 
         # Extract season_id (year) from game_date
         game_df["season_id"] = game_df["game_date"].dt.year
+
+        # Filter based on year range
+        if self.start_year:
+            game_df = game_df[game_df["season_id"] >= self.start_year]
+        if self.end_year:
+            game_df = game_df[game_df["season_id"] <= self.end_year]
 
         # Define columns to keep
         columns_to_keep = [
