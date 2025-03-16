@@ -86,6 +86,9 @@ def main(cfg: DictConfig):
     
     # Start training.
     trainer.fit(model, datamodule=data_module)
+    # after trainer.fit(...)
+    torch.save(model.state_dict(), "initial_hmnn_model.pth")
+
 
 # Training Loop with Sequential Updates
 #for season in sorted(train_loader.dataset.times.unique()):  # Iterate over seasons
