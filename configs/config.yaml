@@ -9,3 +9,16 @@ hyperparameters:
   wandb_project: hmnn_project
   data_dir: data/raw
   csv_filename: game.csv
+  prior_large_sigma: 1.0       # Larger variance for the mixture prior ("big jump" component)
+  drop_rate: 0.1               # DropConnect probability (how often weights reset)
+  hidden_dim: 64               # Hidden layer size for HMNNModel
+
+  # Incremental inference/update specific hyperparameters
+  checkpoint_path: "my_logs_dir/lightning_logs/version_0/checkpoints/best.ckpt"
+  updated_checkpoint_path: "my_logs_dir/updated_hmnn_model.pth"
+  epochs_update: 3
+  new_data_dir: "data/new_data"
+  new_csv_filename: "new_games.csv"
+
+  # Sequential update toggle (optional)
+  use_sequential_updates: true

@@ -17,8 +17,9 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 
 # Import our custom data module and the HMNNLightning model.
-from data import GameDataModule
-from model import HMNNLightning  # HMNNLightning should be defined in model.py with the BayesianNN
+# from data import GameDataModule
+from data2 import GameDataModule
+from model import HMNNLightning, HMNNModel  # HMNNLightning should be defined in model.py with the BayesianNN
 
 @hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
@@ -38,7 +39,7 @@ def main(cfg: DictConfig):
     
     # Dynamically determine input and output dimensions from one batch.
     train_loader = data_module.train_dataloader()
-    x, y = next(iter(train_loader))
+    x, y, _ = next(iter(train_loader))
     input_dim = x.shape[1]
     output_dim = y.shape[1]
     print(f"Input dimension: {input_dim}, Output dimension: {output_dim}")
@@ -47,15 +48,29 @@ def main(cfg: DictConfig):
     prior_std = cfg.hyperparameters.get("prior_std", 1.0)
     lr = cfg.hyperparameters.get("lr", 1e-3)
     task = cfg.hyperparameters.get("task", "regression")
+    hidden_dim = cfg.hyperparameters.get("hidden_dim", 64)
     
     # Instantiate the HMNNLightning model.
-    model = HMNNLightning(
+    # model = HMNNLightning(
+    #    input_dim=input_dim,
+    #    output_dim=output_dim,
+    #    prior_std=prior_std,
+    #    lr=lr,
+    #    task=task
+    #)
+
+    # Instantiate the HMNNModel (the full HMM version) instead of HMNNLightning.
+    model = HMNNModel(
         input_dim=input_dim,
+        hidden_dim=hidden_dim,
         output_dim=output_dim,
-        prior_std=prior_std,
+        prior_initial_sigma=prior_std,
+        prior_large_sigma=cfg.hyperparameters.get("prior_large_sigma", 1.0),
+        drop_rate=cfg.hyperparameters.get("drop_rate", 0.1),
         lr=lr,
-        task=task
+        n_train=data_module.train_size  # Pass the size of the training set for KL scaling.
     )
+
     
     # Setup Wandb logger.
     wandb_project = cfg.hyperparameters.get("wandb_project", "hmnn_project")
@@ -71,6 +86,25 @@ def main(cfg: DictConfig):
     
     # Start training.
     trainer.fit(model, datamodule=data_module)
+    # after trainer.fit(...)
+    torch.save(model.state_dict(), "initial_hmnn_model.pth")
+
+
+    # if cfg.hyperparameters.use_sequential_updates:
+       # seasons = sorted(data_module.train_dataset.times.unique())
+       # for season in seasons:
+           # print(f"Training on season: {season}")
+            
+           # indices = [i for i, t in enumerate(data_module.train_dataset.times) if t == season]
+           # season_dataset = torch.utils.data.Subset(data_module.train_dataset, indices)
+           # season_loader = torch.utils.data.DataLoader(season_dataset, batch_size=cfg.hyperparameters.batch_size, shuffle=True)
+
+           # trainer.fit(model, train_dataloaders=season_loader, val_dataloaders=data_module.val_dataloader())
+            
+           # model.hmm_update_model_weights()
+           # print(f"Priors updated after season {season}.")
+   # else:
+       # trainer.fit(model, datamodule=data_module)
 
 if __name__ == "__main__":
     main()
