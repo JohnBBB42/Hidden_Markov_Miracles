@@ -90,19 +90,21 @@ def main(cfg: DictConfig):
     torch.save(model.state_dict(), "initial_hmnn_model.pth")
 
 
-# Training Loop with Sequential Updates
-#for season in sorted(train_loader.dataset.times.unique()):  # Iterate over seasons
-    #print(f"Training on season: {season}")
-    
-    # Filter data for this season
-    #season_train_data = [(x, y) for x, y, t in train_loader.dataset if t == season]
-    #season_loader = DataLoader(season_train_data, batch_size=batch_size, shuffle=False)
-    
-    #trainer.fit(model, train_dataloader=season_loader)
-    
-    # Update priors for the next season
-    #model.update_prior_weights()
+    # if cfg.hyperparameters.use_sequential_updates:
+       # seasons = sorted(data_module.train_dataset.times.unique())
+       # for season in seasons:
+           # print(f"Training on season: {season}")
+            
+           # indices = [i for i, t in enumerate(data_module.train_dataset.times) if t == season]
+           # season_dataset = torch.utils.data.Subset(data_module.train_dataset, indices)
+           # season_loader = torch.utils.data.DataLoader(season_dataset, batch_size=cfg.hyperparameters.batch_size, shuffle=True)
 
+           # trainer.fit(model, train_dataloaders=season_loader, val_dataloaders=data_module.val_dataloader())
+            
+           # model.hmm_update_model_weights()
+           # print(f"Priors updated after season {season}.")
+   # else:
+       # trainer.fit(model, datamodule=data_module)
 
 if __name__ == "__main__":
     main()
