@@ -218,17 +218,19 @@ class BayesLinear(nn.Module):
             output = output + b_sample
         return output, total_log_q, total_log_p
 
-    def update_prior(self):
-        """Update the prior distribution parameters to the current posterior (to be called after training on a time segment)."""
-        # Set prior mean to current posterior mean (weights), and small variance to current posterior std
+    def hmm_update_weights(self):
+        """Update the prior distribution parameters to the current posterior."""
+        # Compute the current posterior standard deviation
         weight_sigma = torch.log1p(torch.exp(self.weight_rho)).detach()
-        self.prior_mu_old.copy_(self.weight_mu.detach())            # previous mean becomes current mean
-        self.prior_sigma_small.copy_(weight_sigma.detach())         # small variance = posterior std dev
+        # Update prior mean to current posterior mean
+        self.prior_mu_old.copy_(self.weight_mu.detach())
+        # Update prior variance to current posterior variance
+        self.prior_sigma_small.copy_(weight_sigma)
         if self.has_bias:
-            # For bias, we can update similarly (set previous bias mean and small var).
-            # Ensure shapes match: prior_mu_old for bias could be stored separately or reuse part of tensor.
-            # Simplicity: we won't maintain separate bias prior, assume bias prior always N(0, prior_initial_sigma).
-            pass
+            # Update bias priors similarly if bias is used
+            bias_sigma = torch.log1p(torch.exp(self.bias_rho)).detach()
+            self.prior_mu_old_bias.copy_(self.bias_mu.detach())
+            self.prior_sigma_small_bias.copy_(bias_sigma)
 
 class HMNNModel(pl.LightningModule):
     def __init__(self, input_dim: int, hidden_dim: int = 64, output_dim: int = 1,
@@ -284,7 +286,7 @@ class HMNNModel(pl.LightningModule):
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
-
-    def update_prior_weights(self):
-        self.bayes_fc1.update_prior()
-        self.bayes_fc2.update_prior()
+        
+    def hmm_update_model_weights(self):
+        self.bayes_fc1.hmm_update_weights()
+        self.bayes_fc2.hmm_update_weights()
