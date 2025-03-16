@@ -34,7 +34,15 @@ def main(cfg: DictConfig):
     data_dir = cfg.hyperparameters.get("data_dir", "data/raw")
     csv_filename = cfg.hyperparameters.get("csv_filename", "game.csv")
     batch_size = cfg.hyperparameters.batch_size
-    data_module = GameDataModule(data_dir=data_dir, csv_filename=csv_filename, batch_size=batch_size)
+    # data_module = GameDataModule(data_dir=data_dir, csv_filename=csv_filename, batch_size=batch_size)
+    data_module = GameDataModule(
+        data_dir="data/raw",
+        csv_filename="game.csv",
+        batch_size=64,
+        start_year=1980,
+        end_year=1994
+    )
+
     data_module.setup()
     
     # Dynamically determine input and output dimensions from one batch.
