@@ -1,0 +1,8 @@
+input_dim: 3203
+hidden_dim: 64
+output_dim: 6
+prior_initial_sigma: 1.0
+prior_large_sigma: 1.0
+drop_rate: 0.1
+lr: 0.001
+n_train: 15776

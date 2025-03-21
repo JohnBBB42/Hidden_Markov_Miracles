@@ -1,0 +1,18 @@
+hyperparameters:
+  seed: 42
+  batch_size: 128
+  n_epochs: 50
+  lr: 0.001
+  gradient_clip_val: 0.5
+  wandb_project: hmnn_project
+  data_dir: data/raw
+  csv_filename: game.csv
+  prior_large_sigma: 1.0
+  prior_std: 1.0
+  drop_rate: 0.2
+  hidden_dim: 100
+  alpha_k: 0.5
+  sigma_k: 0.1353
+  c: 148.4132
+  pi: 0.5
+  epochs_update: 50

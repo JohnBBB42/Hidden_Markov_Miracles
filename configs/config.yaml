@@ -1,24 +1,29 @@
 hyperparameters:
   seed: 42
-  batch_size: 64
+  batch_size: 128
   n_epochs: 50
   lr: 0.001
-  task: regression
-  prior_std: 1.0
   gradient_clip_val: 0.5
   wandb_project: hmnn_project
   data_dir: data/raw
   csv_filename: game.csv
-  prior_large_sigma: 1.0       # Larger variance for the mixture prior ("big jump" component)
-  drop_rate: 0.1               # DropConnect probability (how often weights reset)
-  hidden_dim: 64               # Hidden layer size for HMNNModel
+  prior_large_sigma: 1.0
+  prior_std: 1.0                # Larger variance for the mixture prior ("big jump" component)
+  drop_rate: 0.1                # DropConnect probability (how often weights reset)
+  hidden_dim: 256               # Hidden layer size for HMNNModel
+  alpha_k: 0.5                  # alpha (kernel smoothing parameter)
+  sigma_k: 0.1353               # sigma parameter (exp(-2))
+  c:  148.4132                  # c parameter (exp(5))
+  pi: 0.5                       # mixture prior weight
+
 
   # Incremental inference/update specific hyperparameters
-  checkpoint_path: "my_logs_dir/lightning_logs/version_0/checkpoints/best.ckpt"
-  updated_checkpoint_path: "my_logs_dir/updated_hmnn_model.pth"
-  epochs_update: 3
-  new_data_dir: "data/new_data"
-  new_csv_filename: "new_games.csv"
+  epochs_update: 50
+  # Initial model checkpoint (pretrained model)
+  # checkpoint_path: "models/initial_hmnn_model.pth"
+
+  # Path for updated model checkpoints after incremental updates
+  # updated_checkpoint_path: "models/updated_hmnn_model.pth"
 
   # Sequential update toggle (optional)
-  use_sequential_updates: true
+  # use_sequential_updates: true

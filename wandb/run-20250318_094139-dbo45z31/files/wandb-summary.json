@@ -1,0 +1,1 @@
+{"_runtime":37.169723978,"train_nll_step":2.6569932275712e+13,"_step":20,"epoch":4,"_wandb":{"runtime":37},"val_loss":25.58282470703125,"train_loss_epoch":3.71123552256e+13,"train_kl_step":309579.125,"trainer/global_step":559,"train_kl_epoch":313739.1875,"_timestamp":1.7422873374887784e+09,"train_loss_step":2.6569932275712e+13,"train_nll_epoch":3.71123552256e+13}
