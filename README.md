@@ -11,7 +11,12 @@ Then run:
 
 Then run:
 
-`python src/hidden_markov_neural_network/train.py`
+`python src/hidden_markov_neural_network/train.py` to train the initial training for the HMNN
+`python src/hidden_markov_neural_network/train_nn.py` to train the initial training for the MLP
+`python src/hidden_markov_neural_network/incremental_update_and_inference.py` to do the incremental updates, where the year interval is changed in the script
+`python src/hidden_markov_neural_network/evaluate.py` to do evaluate the HMNN
+`python src/hidden_markov_neural_network/evaluate_nn.py` to do evaluate the MLP, settings can be changed in the script
+Hyperparameters and path are changed in the configs/config.yaml file
 
 ## Project structure
 
