@@ -21,12 +21,12 @@ Then run:
 
 `python src/hidden_markov_neural_network/evaluate_nn.py` to do evaluate the MLP, settings can be changed in the script
 
-Hyperparameters and path are changed in the configs/config.yaml file
+Hyperparameters and path are changed in the `configs/config.yaml` file
 
 ## Model code
 The HMNN and MLP can be found in `src/hidden_markov_neural_network/model.py` and `src/hidden_markov_neural_network/utils.py`
 
-The code for plotting can be found in the two jupyter notebooks in `Notebooks`
+The code for plotting can be found in the two jupyter notebooks in `notebooks`
 
 ## Project structure
 
