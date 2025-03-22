@@ -23,6 +23,11 @@ Then run:
 
 Hyperparameters and path are changed in the configs/config.yaml file
 
+## Model code
+The HMNN and MLP can be found in `src/hidden_markov_neural_network/model.py` and `src/hidden_markov_neural_network/utils.py`
+
+The code for plotting can be found in the two jupyter notebooks in `Notebooks`
+
 ## Project structure
 
 The directory structure of the project looks like this:
