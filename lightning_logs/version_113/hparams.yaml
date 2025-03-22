@@ -1,0 +1,31 @@
+alpha_k: 0.5
+c: 54.6
+drop_rate: 0.1
+hidden_dim: 256
+input_dim: 8
+lr: 0.001
+n_train: 4900
+num_hidden_layers: 5
+output_dim: 1
+pi: 0.2
+pos_weight: !!python/object/apply:numpy._core.multiarray.scalar
+- !!python/object/apply:numpy.dtype
+  args:
+  - f8
+  - false
+  - true
+  state: !!python/tuple
+  - 3
+  - <
+  - null
+  - null
+  - null
+  - -1
+  - -1
+  - 0
+- !!binary |
+  PrtvCo+35T8=
+prior_initial_sigma: 1.0
+prior_large_sigma: 1.0
+sigma_k: 0.2
+start_year: 2010
