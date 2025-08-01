@@ -278,7 +278,7 @@ regex==2024.11.6
 -e git+ssh://git@github.com/JohnBBB42/dtu_mlops_group_80.git@786163e0d72e467f14a31158734d57f11957b936#egg=renewable_energy_price_prediction
 requests==2.32.3
 requests-oauthlib==2.0.0
-rich==13.9.4
+rich==14.1.0
 rich-click==1.8.5
 rpds-py==0.22.3
 rsa==4.9
